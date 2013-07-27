@@ -117,7 +117,6 @@ Ti.App.addEventListener('graphic_download', function(e) {
 	{
 		scrollView.scrollTo(0,0);
 	});
-<<<<<<< HEAD
 
 
 	
@@ -135,5 +134,3 @@ flurry.setAge(10);
 flurry.setGender(flurry.MALE); //or use flurry.FEMALE
 flurry.onPageView();
 flurry.onEndSession(); //make sure you call this or the events won't be set
-=======
->>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec

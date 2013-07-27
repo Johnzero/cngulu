@@ -5,23 +5,6 @@ var functions = require('/lib/functions');
 var slider = require('/lib/slider').createSlider();
 var mainWindow = require("/lib/mainWindow");
 var contentWindow = require("/lib/contentWindow");
-<<<<<<< HEAD
-=======
-var flurry = require('sg.flurry');
-
-flurry.setContinueSessionMillis(10000);
-flurry.setReportLocation(true);
-flurry.setUseHttps(true);
-flurry.setCaptureUncaughtExceptions(true);
-flurry.onStartSession('Cngulu');
-flurry.logEvent('started', {start: 'value'});
-flurry.onError('someerror', 'no crash', 'eClass');
-flurry.setUserID('tester');
-flurry.setAge(10);
-flurry.setGender(flurry.MALE); //or use flurry.FEMALE
-flurry.onPageView();
-flurry.onEndSession(); //make sure you call this or the events won't be set
->>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 
 var baseWindow = Ti.UI.createWindow({
 	backgroundColor : 'white',
