@@ -155,7 +155,11 @@ exports.createSlider = function() {
 			var titleBar = Ti.UI.createLabel({
 				height : '44dp',
 				top : 0,
+<<<<<<< HEAD
 				font: {fontSize:"25dp", fontWeight:'bold'},
+=======
+				font: {fontSize:28, fontWeight:'bold'},
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 				backgroundColor : 'black',
 				textAlign : 'center',
 				color : 'white',

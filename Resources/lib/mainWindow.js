@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 exports.createMainWindow = function() {
 
@@ -24,6 +25,12 @@ exports.createMainWindow = function() {
 		actInd.style = ActivityIndicatorStyle.PLAIN;
 	}
 
+=======
+var isAndroid = (Ti.Platform.osname === 'android');
+
+exports.createMainWindow = function() {
+
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 	var win = Ti.UI.createWindow({
 		title : "咕噜网",
 		backgroundColor : "white",
@@ -70,8 +77,12 @@ exports.createMainWindow = function() {
 		  height:"30dp"
 	});
 	label.addEventListener('click', function(){
+<<<<<<< HEAD
 		var test = require("/lib/extra").createConnection();
 		Ti.API.info(test+'------------------');
+=======
+		require("/lib/extra").createConnection();
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 	});
 
 	var button = Titanium.UI.createButton({
@@ -86,6 +97,7 @@ exports.createMainWindow = function() {
 		scrollView.scrollTo(0,0);
 	});
 
+<<<<<<< HEAD
 	var loadingButton = Titanium.UI.createButton({
 		title : 'Show',
 		height : "10dp",
@@ -115,6 +127,8 @@ exports.createMainWindow = function() {
 		}
 	});
 
+=======
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 	scrollListener = function (e) {
 
 	    var tolerance = 50;
@@ -134,7 +148,10 @@ exports.createMainWindow = function() {
 	win.add(scrollView);
 	win.add(label);
 	win.add(button);	
+<<<<<<< HEAD
 	win.add(loadingButton);
+=======
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 
 	return win;
 

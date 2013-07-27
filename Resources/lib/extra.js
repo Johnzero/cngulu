@@ -28,7 +28,11 @@ exports.createConnection = function() {
 
 		var table = Ti.UI.createTableViewRow({
 			title:data[1],
+<<<<<<< HEAD
 			height:'70dp'
+=======
+			height:'100'
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 			// backgroundSelectedColor:'blue'
 		});
 		var img = Ti.UI.createImageView({
@@ -76,6 +80,9 @@ exports.createConnection = function() {
 
 	});
 
+<<<<<<< HEAD
 return true;
 
+=======
+>>>>>>> 37221e682835435553b63eecccd1450bd16ae5ec
 }
