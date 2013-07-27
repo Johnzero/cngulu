@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <deployment-targets>
+        <target device="tizen">false</target>
+        <target device="mobileweb">false</target>
+        <target device="iphone">true</target>
+        <target device="ipad">false</target>
+        <target device="android">true</target>
+        <target device="blackberry">false</target>
+    </deployment-targets>
+    <sdk-version>3.1.1.GA</sdk-version>
+    <id>com.cngulu.app</id>
+    <name>Cngulu</name>
+    <version>1.0</version>
+    <publisher>Zero</publisher>
+    <url>http://www.cngulu.com</url>
+    <description>not specified</description>
+    <copyright>Zero 2013.7</copyright>
+    <icon>appicon.png</icon>
+    <persistent-wifi>true</persistent-wifi>
+    <prerendered-icon>false</prerendered-icon>
+    <statusbar-style>default</statusbar-style>
+    <statusbar-hidden>true</statusbar-hidden>
+    <fullscreen>true</fullscreen>
+    <navbar-hidden>true</navbar-hidden>
+    <analytics>false</analytics>
+    <!-- <property name="ti.ui.defaultunit">dp</property> -->
+    <guid>85af8fed-1be5-4a59-88ef-bea78334fbfd</guid>
+    <property name="ti.ui.defaultunit">system</property>
+    <iphone>
+        <orientations device="iphone">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+        </orientations>
+        <orientations device="ipad">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
+        </orientations>
+    </iphone>
+    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <mobileweb>
+        <precache/>
+        <splash>
+            <enabled>true</enabled>
+            <inline-css-images>true</inline-css-images>
+        </splash>
+        <theme>default</theme>
+    </mobileweb>
+  <modules>
+    <!-- For example, if we were adding the greystripe module: -->
+    <module version="2.0" platform="android">sg.flurry</module>
+  </modules>
+</ti:app>
