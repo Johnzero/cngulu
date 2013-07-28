@@ -79,7 +79,7 @@ baseWindow.addEventListener('open', function() {
 	 every time slider fires event 'open'. Using
 	 started variabled to make sure this only gets
 	 run once */
-	require("/lib/extra").createConnection();
+	// require("/lib/extra").createConnection();
 	if (!started) {
 		slider.showWindow(0);
 		started = true;

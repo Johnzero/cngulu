@@ -10,6 +10,8 @@ exports.createConnection = function() {
 		    for (var i = 0; i < data.length; i++) {
 		    	Ti.App.fireEvent('graphic_download', {data:data[i]});
 		    }
+		    data = null;
+
 		},
 
 		onerror : function(e) {
@@ -72,8 +74,11 @@ exports.createConnection = function() {
 		table.add(date);
 		tableView.appendRow(table);
 		var height = parseInt(table.height) + parseInt(tableView.height);
-		tableView.height = height + '';
-
+		tableView.height = height + 'dp';
+		tabel = null;
+		img = null;
+		label = null;
+		date = null;
 	});
-return true;
+
 }

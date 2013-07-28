@@ -2,7 +2,6 @@
 exports.createMainWindow = function() {
 
 	var osname = Ti.Platform.osname;
-
 	var isIos = (osname === 'iphone' || osname === 'ipad');
 	var isAndroid = (osname === 'android');
 	var sdkVersion = parseFloat(Ti.version);
@@ -47,19 +46,32 @@ exports.createMainWindow = function() {
 		  width: '100%',
 		  layout: 'vertical'
 	});
+	scrollListener = function (e) {
+	    var tolerance = 50;
+	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
+	    if (bottom) {
+		    // scrollView.removeEventListener('scroll',scrollListener);
+		    // require("/lib/extra").createConnection();
+		    goTop.show();
+	    }else {goTop.hide();}
+	
+	}
+	scrollView.addEventListener('scroll', scrollListener);
+	win.add(scrollView);
 
 	tableView = Ti.UI.createTableView({
 	  	contentWidth: 'auto',
 		contentHeight: 'auto',
 		width: '100%',
-		height:'200',
+		height:'100dp',
 		// height:Ti.UI.FILL,
 		// style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		layout: 'vertical',
 		search: searchbar
 	});
+	scrollView.add(tableView);
 
-	var label = Ti.UI.createLabel
+	var advertLabel = Ti.UI.createLabel
 	({
 		  backgroundColor:'darkgray',
 		  text: 'Your advert here',
@@ -69,22 +81,25 @@ exports.createMainWindow = function() {
 		  backgroundImage:"/grad.png",
 		  height:"30dp"
 	});
-	label.addEventListener('click', function(){
-		var test = require("/lib/extra").createConnection();
-		Ti.API.info(test+'------------------');
+	advertLabel.addEventListener('click', function(){
+		Ti.API.info('------------------');
+		require("/lib/extra").createConnection();
 	});
+	win.add(advertLabel);
 
-	var button = Titanium.UI.createButton({
+	var goTop = Titanium.UI.createButton({
 		title:'T',
 		height:"35dp",
 		width:60,
-		right:0,
-		bottom:"-4dp"
+		right:"-2dp",
+		bottom:"25dp"
 	});
-	button.addEventListener('click', function()
+	goTop.addEventListener('click', function()
 	{
 		scrollView.scrollTo(0,0);
 	});
+	goTop.hide();
+	win.add(goTop);	
 
 	var loadingButton = Titanium.UI.createButton({
 		title : 'Show',
@@ -114,26 +129,6 @@ exports.createMainWindow = function() {
 			indicatorAdded = true;
 		}
 	});
-
-	scrollListener = function (e) {
-
-	    var tolerance = 50;
-	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
-	    if (bottom) {
-		    // scrollView.removeEventListener('scroll',scrollListener);
-		    // require("/lib/extra").createConnection();
-		    button.show();
-	    }else {button.hide();}
-	
-	}
-
-	scrollView.addEventListener('scroll', scrollListener);
-
-	scrollView.add(tableView);
-	button.hide();
-	win.add(scrollView);
-	win.add(label);
-	win.add(button);	
 	win.add(loadingButton);
 
 	return win;
