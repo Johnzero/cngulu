@@ -5,6 +5,7 @@ var functions = require('/lib/functions');
 var slider = require('/lib/slider').createSlider();
 var mainWindow = require("/lib/mainWindow");
 var contentWindow = require("/lib/contentWindow");
+Ti.include("/lib/event.js");
 
 var baseWindow = Ti.UI.createWindow({
 	backgroundColor : 'white',
@@ -79,7 +80,7 @@ baseWindow.addEventListener('open', function() {
 	 every time slider fires event 'open'. Using
 	 started variabled to make sure this only gets
 	 run once */
-	// require("/lib/extra").createConnection();
+	require("/lib/extra").createConnection();
 	if (!started) {
 		slider.showWindow(0);
 		started = true;

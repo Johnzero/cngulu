@@ -1,0 +1,10 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=Cngulu
+android/abi=armeabi-v7a
+android/distribute_path=C\:\\Users\\Administrator\\Desktop
+android/keystore_alias=Cngulu
+android/keystore_password=1233276
+android/keystore_path=C\:\\Users\\Administrator\\Downloads\\key.key
+android/recent_output=C\:\\Users\\Administrator\\Desktop
+android/sdk_version=Android 4.0
+eclipse.preferences.version=1

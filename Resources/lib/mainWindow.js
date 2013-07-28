@@ -12,16 +12,22 @@ exports.createMainWindow = function() {
 		} else if (sdkVersion >= 3.0){
 			ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
 	}
-
-	var actInd = Titanium.UI.createActivityIndicator({
-		bottom : "15dp",
+	actInd = Titanium.UI.createActivityIndicator({
+		bottom : "6dp",
 		width : Ti.UI.SIZE,
 		height : Ti.UI.SIZE
 	});
-
 	if (ActivityIndicatorStyle) {
 		actInd.style = ActivityIndicatorStyle.PLAIN;
 	}
+	actInd.font = {
+		fontFamily : 'Helvetica Neue',
+		fontSize : 15,
+		fontWeight : 'bold'
+	};
+	actInd.color = 'white';
+	actInd.message = 'Loading...';
+	actInd.width = 210;
 
 	var win = Ti.UI.createWindow({
 		title : "咕噜网",
@@ -35,7 +41,7 @@ exports.createMainWindow = function() {
 		showCancel: false
 	});
 
-	var scrollView = Ti.UI.createScrollView({
+	scrollView = Ti.UI.createScrollView({
 		  contentWidth: 'auto',
 		  contentHeight: 'auto',
 		  showVerticalScrollIndicator: true,
@@ -46,8 +52,8 @@ exports.createMainWindow = function() {
 		  width: '100%',
 		  layout: 'vertical'
 	});
-	scrollListener = function (e) {
-	    var tolerance = 50;
+	var scrollListener = function (e) {
+	    var tolerance = 30;
 	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
 	    if (bottom) {
 		    // scrollView.removeEventListener('scroll',scrollListener);
@@ -56,14 +62,24 @@ exports.createMainWindow = function() {
 	    }else {goTop.hide();}
 	
 	}
+	scrollFetch = function (e) {
+	    var tolerance = 80;
+	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
+	    if (bottom) {
+		    scrollView.removeEventListener('scroll',scrollFetch);
+		    require("/lib/extra").createConnection();
+	    }
+	
+	}
 	scrollView.addEventListener('scroll', scrollListener);
+	scrollView.addEventListener('scroll', scrollFetch);
 	win.add(scrollView);
 
 	tableView = Ti.UI.createTableView({
 	  	contentWidth: 'auto',
 		contentHeight: 'auto',
 		width: '100%',
-		height:'100dp',
+		height:'110dp',
 		// height:Ti.UI.FILL,
 		// style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		layout: 'vertical',
@@ -71,7 +87,7 @@ exports.createMainWindow = function() {
 	});
 	scrollView.add(tableView);
 
-	var advertLabel = Ti.UI.createLabel
+	advertLabel = Ti.UI.createLabel
 	({
 		  backgroundColor:'darkgray',
 		  text: 'Your advert here',
@@ -82,7 +98,6 @@ exports.createMainWindow = function() {
 		  height:"30dp"
 	});
 	advertLabel.addEventListener('click', function(){
-		Ti.API.info('------------------');
 		require("/lib/extra").createConnection();
 	});
 	win.add(advertLabel);
@@ -90,7 +105,7 @@ exports.createMainWindow = function() {
 	var goTop = Titanium.UI.createButton({
 		title:'T',
 		height:"35dp",
-		width:60,
+		width: 60,
 		right:"-2dp",
 		bottom:"25dp"
 	});
@@ -100,36 +115,7 @@ exports.createMainWindow = function() {
 	});
 	goTop.hide();
 	win.add(goTop);	
-
-	var loadingButton = Titanium.UI.createButton({
-		title : 'Show',
-		height : "10dp",
-		width : "10dp",
-		top : 55
-	});
-
-	var indicatorAdded = false
-
-	loadingButton.addEventListener('click', function() {
-		if (ActivityIndicatorStyle) {
-			actInd.style = ActivityIndicatorStyle.PLAIN;
-		}
-		actInd.font = {
-			fontFamily : 'Helvetica Neue',
-			fontSize : 15,
-			fontWeight : 'bold'
-		};
-		actInd.color = 'white';
-		actInd.message = 'Loading...';
-		actInd.width = 210;
-		if(!indicatorAdded)
-		{
-			win.add(actInd);
-			actInd.show();
-			indicatorAdded = true;
-		}
-	});
-	win.add(loadingButton);
+	win.add(actInd);
 
 	return win;
 
