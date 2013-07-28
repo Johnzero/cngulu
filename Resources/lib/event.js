@@ -46,7 +46,6 @@ Ti.App.addEventListener('graphic_download', function(e) {
 		table.add(img);
 		table.add(label);
 		table.add(date);
-		Ti.API.info('+++++++++++++++++++++++++++');
 		tableView.appendRow(table);
 		var height = parseInt(table.height) + parseInt(tableView.height);
 		tableView.height = height + 'dp';
@@ -55,8 +54,4 @@ Ti.App.addEventListener('graphic_download', function(e) {
 		label = null;
 		date = null;
 		rowData = null;
-});
-
-Ti.App.addEventListener("loading",function (e) {
-
 });

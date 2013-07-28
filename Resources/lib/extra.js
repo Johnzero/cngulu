@@ -12,7 +12,7 @@ exports.createConnection = function() {
 		    for (var i = 0; i < data.length; i++) {
 		    	Ti.App.fireEvent('graphic_download', {data:data[i]});
 		    	if (i == data.length-1) {
-		    		scrollView.addEventListener('scroll', scrollFetch);	
+		    		// scrollView.addEventListener('scroll', scrollFetch);	
 		    		actInd.hide();
 		    		advertLabel.text = 'Your advert here';
 		    	};

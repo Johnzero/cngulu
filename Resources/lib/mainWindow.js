@@ -38,7 +38,8 @@ exports.createMainWindow = function() {
 
 	var searchbar = Ti.UI.createSearchBar({
 		barColor: '#385292',
-		showCancel: false
+		showCancel: false,
+		rowIndex:1
 	});
 
 	scrollView = Ti.UI.createScrollView({
@@ -52,8 +53,9 @@ exports.createMainWindow = function() {
 		  width: '100%',
 		  layout: 'vertical'
 	});
+	var tolerance = 150;
+
 	var scrollListener = function (e) {
-	    var tolerance = 30;
 	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
 	    if (bottom) {
 		    // scrollView.removeEventListener('scroll',scrollListener);
@@ -63,11 +65,10 @@ exports.createMainWindow = function() {
 	
 	}
 	scrollFetch = function (e) {
-	    var tolerance = 80;
 	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
 	    if (bottom) {
 		    scrollView.removeEventListener('scroll',scrollFetch);
-		    require("/lib/extra").createConnection();
+		    // require("/lib/extra").createConnection();
 	    }
 	
 	}
@@ -79,7 +80,7 @@ exports.createMainWindow = function() {
 	  	contentWidth: 'auto',
 		contentHeight: 'auto',
 		width: '100%',
-		height:'110dp',
+		height:'130dp',
 		// height:Ti.UI.FILL,
 		// style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		layout: 'vertical',
@@ -103,15 +104,15 @@ exports.createMainWindow = function() {
 	win.add(advertLabel);
 
 	var goTop = Titanium.UI.createButton({
-		title:'T',
-		height:"35dp",
-		width: 60,
-		right:"-2dp",
-		bottom:"25dp"
+		height:"40dp",
+		width: "40dp",
+		right:0,
+		bottom:"30dp",
+		backgroundImage : "/top.png"
 	});
 	goTop.addEventListener('click', function()
 	{
-		scrollView.scrollTo(0,0);
+		tableView.scrollToIndex(1, {animation:Titanium.UI.ANIMATION_CURVE_EASE_OUT});
 	});
 	goTop.hide();
 	win.add(goTop);	

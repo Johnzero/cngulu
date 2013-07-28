@@ -12,7 +12,7 @@ exports.createSlider = function() {
 		CLOSED : 1,
 		ANIMATING : 2
 	};
-	var ANIMATION_DURATION = 300;
+	var ANIMATION_DURATION = 150;
 	var status = STATUS.OPEN;
 	var tapCatcher = null;
 
@@ -141,7 +141,8 @@ exports.createSlider = function() {
 		proxy.window = require('/lib/navWindow').createNavigationWindow(win);
 		win.nav = proxy.window;
 		var button = Ti.UI.createButton({
-			image : "/images/button.png"
+			backgroundImage : "/homewhite.png"
+			// backgroundFocusedImage:"/home.png"
 		});
 		button.addEventListener('click', function() {
 			slider.open();

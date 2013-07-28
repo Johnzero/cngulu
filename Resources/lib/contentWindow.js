@@ -14,7 +14,7 @@ exports.createContentWindow = function() {
 	        separatorColor: 'transparent',
 	        borderRadius:10,
 	        borderColor: 'transparent',
-	        backgroundImage:'http://isdcloud.s3.amazonaws.com/titanium/grad.png', //change this to your gradient and make you row size the same mines on s3fileshare
+	        backgroundImage:'', //change this to your gradient and make you row size the same mines on s3fileshare
 	        backgroundRepeat:true,
 	        footerTitle:''//removes the empty rows ...
 	});
