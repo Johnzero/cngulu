@@ -19,7 +19,7 @@
 	    
 	    $imgurl = 'http://web.887w.com/wp-content/uploads/'.$iarray[0]->meta_value;
 
-	    $content = array($imgurl,$post['post_title'],$post['post_author'],$post['post_date']);
+	    $content = array($imgurl,$post['post_title'],$post['post_author'],$post['post_date'],$post['guid']);
 	    
 	    array_push($darry,$content);
 	    // Loop... 

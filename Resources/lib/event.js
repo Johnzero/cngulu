@@ -4,7 +4,10 @@ Ti.App.addEventListener('graphic_download', function(e) {
 
 		var table = Ti.UI.createTableViewRow({
 			title:rowData[1],
-			height:'70dp'
+			height:'70dp',
+			top: '-3dp',
+			reurl:rowData[4],
+			backgroundImage:"/row.png"
 			// backgroundSelectedColor:'blue'
 		});
 		var img = Ti.UI.createImageView({
@@ -26,6 +29,7 @@ Ti.App.addEventListener('graphic_download', function(e) {
 				fontSize: '16dp'
 			},
 			left: '83dp',
+			top:"2dp",
 			right: '3dp',
 			touchEnabled: false,
 			color:"black"
@@ -55,3 +59,6 @@ Ti.App.addEventListener('graphic_download', function(e) {
 		date = null;
 		rowData = null;
 });
+
+
+

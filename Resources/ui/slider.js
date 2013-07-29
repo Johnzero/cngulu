@@ -4,7 +4,7 @@ exports.createSlider = function() {
 
 	var windowWidth = Ti.Platform.displayCaps.platformWidth;
 	var windows = [];
-	var OPEN_LEFT = windowWidth * 0.64;
+	var OPEN_LEFT = windowWidth * 0.25;
 	var SLIDER_RIGHT = windowWidth - OPEN_LEFT;
 	var visibleWindow = null;
 	var STATUS = {
@@ -138,10 +138,11 @@ exports.createSlider = function() {
 				}
 			});
 		}
-		proxy.window = require('/lib/navWindow').createNavigationWindow(win);
+		proxy.window = require('/ui/navWindow').createNavigationWindow(win);
 		win.nav = proxy.window;
 		var button = Ti.UI.createButton({
-			backgroundImage : "/homewhite.png"
+			backgroundImage : "/home1.png",
+			backgroundSelectedImage:'/home2.png'
 			// backgroundFocusedImage:"/home.png"
 		});
 		button.addEventListener('click', function() {
@@ -156,8 +157,9 @@ exports.createSlider = function() {
 			var titleBar = Ti.UI.createLabel({
 				height : '44dp',
 				top : 0,
-				font: {fontSize:"25dp", fontWeight:'bold'},
+				font: {fontSize:"22dp", fontWeight:'bold'},
 				backgroundColor : 'black',
+				backgroundImage: "/header.jpg",
 				textAlign : 'center',
 				color : 'white',
 				width : Ti.UI.FILL,
@@ -244,7 +246,7 @@ exports.createSlider = function() {
 				window : winNumber
 			});
 			if (_nextFunction) {
-				setTimeout(_nextFunction, 50);
+				setTimeout(_nextFunction, 20);
 			}
 		});
 		visibleWindow = proxy.window;

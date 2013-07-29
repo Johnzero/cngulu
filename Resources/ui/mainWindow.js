@@ -47,8 +47,8 @@ exports.createMainWindow = function() {
 		  contentHeight: 'auto',
 		  showVerticalScrollIndicator: true,
 		  showHorizontalScrollIndicator: false,
-		  height: '90%',
-		  top:"60dp",
+		  height: '100%',
+		  top:"50dp",
 		  left:0,
 		  width: '100%',
 		  layout: 'vertical'
@@ -80,18 +80,30 @@ exports.createMainWindow = function() {
 	  	contentWidth: 'auto',
 		contentHeight: 'auto',
 		width: '100%',
-		height:'130dp',
+		height:'160dp',
+		// backgroundImage:"/back2.jpg",
 		// height:Ti.UI.FILL,
 		// style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 		layout: 'vertical',
 		search: searchbar
+	});
+	var slide_it_left = Titanium.UI.createAnimation();
+    slide_it_left.left = 0; // to put it back to the left side of the window
+    slide_it_left.duration = 300;
+	tableView.addEventListener('click', function (e){
+	  if (e.source && e.source.objName !== 'table'){
+	    var webview = Titanium.UI.createWebView({url:e.rowData.reurl});
+	    var window = Titanium.UI.createWindow();
+	    window.add(webview);
+	    window.open({animated : slide_it_left,fullscreen : true,modal:true});
+	  }
 	});
 	scrollView.add(tableView);
 
 	advertLabel = Ti.UI.createLabel
 	({
 		  backgroundColor:'darkgray',
-		  text: 'Your advert here',
+		  text: '咕噜网@安徽木森网络科技有限公司',
 		  textAlign: 'center',
 		  bottom:0,
 		  width: Titanium.UI.FILL, 
@@ -108,13 +120,17 @@ exports.createMainWindow = function() {
 		width: "40dp",
 		right:0,
 		bottom:"30dp",
-		backgroundImage : "/top.png"
+		// backgroundDisabledImage: '/images/BUTT_drk_off.png'
+		backgroundImage : "/top1.png",
+		backgroundSelectedImage:'/top2.png'
 	});
 	goTop.addEventListener('click', function()
 	{
-		tableView.scrollToIndex(1, {animation:Titanium.UI.ANIMATION_CURVE_EASE_OUT});
+		scrollView.scrollTo(0, 0);
+		goTop.hide();
 	});
 	goTop.hide();
+
 	win.add(goTop);	
 	win.add(actInd);
 

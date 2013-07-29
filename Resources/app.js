@@ -2,13 +2,13 @@
 
 var _ = require('/lib/underscore');
 var functions = require('/lib/functions');
-var slider = require('/lib/slider').createSlider();
-var mainWindow = require("/lib/mainWindow");
-var contentWindow = require("/lib/contentWindow");
+var slider = require('/ui/slider').createSlider();
+var mainWindow = require("/ui/mainWindow");
+var contentWindow = require("/ui/contentWindow");
 Ti.include("/lib/event.js");
 
 var baseWindow = Ti.UI.createWindow({
-	backgroundColor : 'white',
+	backgroundColor : 'black',
 	navBarHidden : true,
 	exitOnClose : true,
 	fullscreen: false,
@@ -25,21 +25,32 @@ var baseWindow = Ti.UI.createWindow({
 });
 
 var win = [{
-	title : '咕噜网',
+	title : '首页',
 	createWindowFunction : mainWindow.createMainWindow
 }, {
-	title : '资讯',
+	title : '我说你听',
 	createWindowFunction : contentWindow.createContentWindow
 }, {
-	title : 'Purple',
+	title : '人物访谈',
 	createWindowFunction : functions.createPurpleWindow
 }, {
-	title : 'Yellow',
+	title : '互联网',
 	createWindowFunction : functions.createYellowWindow
-}, {
-	title : 'Pink',
-	createWindowFunction : functions.createPinkWindow
-}];
+}, 	{title : 'IT业界',
+	createWindowFunction : functions.createYellowWindow
+},	{title : '手机数码',
+	createWindowFunction : functions.createYellowWindow
+},	{title : '掌上应用',
+	createWindowFunction : functions.createYellowWindow
+},	{title : '创业投资',
+	createWindowFunction : functions.createYellowWindow
+},	{title : '游戏',
+	createWindowFunction : functions.createYellowWindow
+},	{title : '观点评论',
+	createWindowFunction : functions.createYellowWindow
+},	{title : '电子商务',
+	createWindowFunction : functions.createYellowWindow
+},];
 
 var winData = [];
 
@@ -48,12 +59,14 @@ _.each(win, function(obj, i) {
 		createFunction : obj.createWindowFunction
 	});
 	winData.push({
-		title : obj.title
+		title : obj.title,
+		height : "40dp",
+		font:{fontSize:"13dp", fontWeight:'bold'}
 	});
 });
 
 var table = Ti.UI.createTableView({
-	rowHeight : '44dp'
+	rowHeight : '80dp'
 });
 table.setData(winData);
 
@@ -104,6 +117,7 @@ slider.addEventListener('close', function() {
 
 baseWindow.open({
 	animated : true,
-	activityEnterAnimation: Ti.Android.R.anim.fade_in,
-    activityExitAnimation: Ti.Android.R.anim.fade_out
+	fullscreen : true,
+	activityEnterAnimation : Ti.Android.R.anim.fade_in,
+    activityExitAnimation : Ti.Android.R.anim.fade_out
 });

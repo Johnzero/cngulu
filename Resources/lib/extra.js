@@ -14,7 +14,7 @@ exports.createConnection = function() {
 		    	if (i == data.length-1) {
 		    		// scrollView.addEventListener('scroll', scrollFetch);	
 		    		actInd.hide();
-		    		advertLabel.text = 'Your advert here';
+		    		advertLabel.text = '咕噜网@安徽木森网络科技有限公司';
 		    	};
 		    }
 		    data = null;
