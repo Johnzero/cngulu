@@ -1,7 +1,6 @@
 
 Ti.App.addEventListener('graphic_download', function(e) {
 	    var rowData = e.data;
-
 		var table = Ti.UI.createTableViewRow({
 			title:rowData[1],
 			height:'70dp',
@@ -50,15 +49,45 @@ Ti.App.addEventListener('graphic_download', function(e) {
 		table.add(img);
 		table.add(label);
 		table.add(date);
-		tableView.appendRow(table);
-		var height = parseInt(table.height) + parseInt(tableView.height);
-		tableView.height = height + 'dp';
+		e.tableView.appendRow(table);
+		var height = parseInt(table.height) + parseInt(e.tableView.height);
+		e.tableView.height = height + 'dp';
 		tabel = null;
 		img = null;
 		label = null;
 		date = null;
 		rowData = null;
 });
+
+
+
+
+Ti.App.addEventListener('graphic_downloadddd', function(e) {
+	
+	var rowData = e.data;
+	Ti.API.info(rowData[0]);
+	var sections = [];
+	var fruitSection = Ti.UI.createListSection({
+		height:'70dp',
+		top: '-3dp',
+		reurl:rowData[4],
+		backgroundImage:"/row.png"
+	});
+	var fruitDataSet = [
+	    // the text property of info maps to the text property of the title label
+	    // the text property of es_info maps to text property of the subtitle label
+	    // the image property of pic maps to the image property of the image view
+	    { info: {text: rowData[1]}, es_info: {text: rowData[3].substr(0,10)}, pic: {image:rowData[0]}},
+	];
+	fruitSection.setItems(fruitDataSet);
+	sections.push(fruitSection);
+	e.listView.appendSection(sections);
+
+});
+
+
+
+
 
 
 

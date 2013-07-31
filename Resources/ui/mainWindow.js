@@ -1,40 +1,32 @@
 
-exports.createMainWindow = function() {
+exports.createMainWindow = function(e) {
 
-	var osname = Ti.Platform.osname;
-	var isIos = (osname === 'iphone' || osname === 'ipad');
-	var isAndroid = (osname === 'android');
-	var sdkVersion = parseFloat(Ti.version);
 
-	var ActivityIndicatorStyle;
-		if (isIos) {
-			ActivityIndicatorStyle = Titanium.UI.iPhone.ActivityIndicatorStyle;
-		} else if (sdkVersion >= 3.0){
-			ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
-	}
-	actInd = Titanium.UI.createActivityIndicator({
+	e.num = 0;
+
+	var win = Ti.UI.createWindow({
+		title : e.title,
+		backgroundColor : "white",
+		// font:{fontFamily:'Arial', fontSize:defaultFontSize+6, fontWeight:'bold'},
+		exitOnClose : false	
+	});
+
+	e.actInd = Titanium.UI.createActivityIndicator({
 		bottom : "6dp",
 		width : Ti.UI.SIZE,
 		height : Ti.UI.SIZE
 	});
 	if (ActivityIndicatorStyle) {
-		actInd.style = ActivityIndicatorStyle.PLAIN;
+		e.actInd.style = ActivityIndicatorStyle.PLAIN;
 	}
-	actInd.font = {
+	e.actInd.font = {
 		fontFamily : 'Helvetica Neue',
 		fontSize : 15,
 		fontWeight : 'bold'
 	};
-	actInd.color = 'white';
-	actInd.message = 'Loading...';
-	actInd.width = 210;
-
-	var win = Ti.UI.createWindow({
-		title : "咕噜网",
-		backgroundColor : "white",
-		// font:{fontFamily:'Arial', fontSize:defaultFontSize+6, fontWeight:'bold'},
-		exitOnClose : false	
-	});
+	e.actInd.color = 'white';
+	e.actInd.message = 'Loading...';
+	e.actInd.width = 210;
 
 	var searchbar = Ti.UI.createSearchBar({
 		barColor: '#385292',
@@ -42,21 +34,21 @@ exports.createMainWindow = function() {
 		rowIndex:1
 	});
 
-	scrollView = Ti.UI.createScrollView({
+	e.scrollView = Ti.UI.createScrollView({
 		  contentWidth: 'auto',
 		  contentHeight: 'auto',
 		  showVerticalScrollIndicator: true,
 		  showHorizontalScrollIndicator: false,
 		  height: '100%',
-		  top:"50dp",
+		  // top:"50dp",
+		  top:"20dp",
 		  left:0,
 		  width: '100%',
 		  layout: 'vertical'
 	});
 	var tolerance = 150;
-
-	var scrollListener = function (e) {
-	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
+	var scrollListener = function (ee) {
+	    var bottom = (e.tableView.getRect().height - ee.y) <= (e.scrollView.getRect().height + tolerance);
 	    if (bottom) {
 		    // scrollView.removeEventListener('scroll',scrollListener);
 		    // require("/lib/extra").createConnection();
@@ -64,19 +56,19 @@ exports.createMainWindow = function() {
 	    }else {goTop.hide();}
 	
 	}
-	scrollFetch = function (e) {
-	    var bottom = (tableView.getRect().height - e.y) <= (scrollView.getRect().height + tolerance);
+	scrollFetch = function (ee) {
+	    var bottom = (e.tableView.getRect().height - ee.y) <= (e.scrollView.getRect().height + tolerance);
 	    if (bottom) {
-		    scrollView.removeEventListener('scroll',scrollFetch);
+		    e.scrollView.removeEventListener('scroll',scrollFetch);
 		    // require("/lib/extra").createConnection();
 	    }
 	
 	}
-	scrollView.addEventListener('scroll', scrollListener);
-	scrollView.addEventListener('scroll', scrollFetch);
-	win.add(scrollView);
+	e.scrollView.addEventListener('scroll', scrollListener);
+	e.scrollView.addEventListener('scroll', scrollFetch);
+	win.add(e.scrollView);
 
-	tableView = Ti.UI.createTableView({
+	e.tableView = Ti.UI.createTableView({
 	  	contentWidth: 'auto',
 		contentHeight: 'auto',
 		width: '100%',
@@ -87,18 +79,19 @@ exports.createMainWindow = function() {
 		layout: 'vertical',
 		search: searchbar
 	});
+
 	var slide_it_left = Titanium.UI.createAnimation();
     slide_it_left.left = 0; // to put it back to the left side of the window
     slide_it_left.duration = 300;
-	tableView.addEventListener('click', function (e){
-	  if (e.source && e.source.objName !== 'table'){
-	    var webview = Titanium.UI.createWebView({url:e.rowData.reurl});
+	e.tableView.addEventListener('click', function (click_tableview){
+	  if (click_tableview.source && click_tableview.source.objName !== 'table'){
+	    var webview = Titanium.UI.createWebView({url:click_tableview.rowData.reurl});
 	    var window = Titanium.UI.createWindow();
 	    window.add(webview);
 	    window.open({animated : slide_it_left,fullscreen : true,modal:true});
 	  }
 	});
-	scrollView.add(tableView);
+	e.scrollView.add(e.tableView);
 
 	advertLabel = Ti.UI.createLabel
 	({
@@ -111,7 +104,12 @@ exports.createMainWindow = function() {
 		  height:"30dp"
 	});
 	advertLabel.addEventListener('click', function(){
-		require("/lib/extra").createConnection();
+		require("/lib/extra").createConnection({
+			actInd : e.actInd,
+			tableView : e.tableView,
+			n : e.num
+		});
+		e.num++;
 	});
 	win.add(advertLabel);
 
@@ -126,13 +124,28 @@ exports.createMainWindow = function() {
 	});
 	goTop.addEventListener('click', function()
 	{
-		scrollView.scrollTo(0, 0);
+
+		// listView.scrollToItem(sectionIndex,itemIndex);
+		e.scrollView.scrollTo(0, 0);
 		goTop.hide();
 	});
 	goTop.hide();
-
 	win.add(goTop);	
-	win.add(actInd);
+	win.add(e.actInd);
+	win.addEventListener('open', function() {
+
+		// setTimeout(function(){
+		//     require("/lib/extra").createConnection({
+		// 		tableView : e.tableView
+		// 	});
+		// }, 9500);
+		require("/lib/extra").createConnection({
+			actInd : e.actInd,
+			tableView : e.tableView,
+			n : e.num
+		});
+		e.num++;
+	});
 
 	return win;
 

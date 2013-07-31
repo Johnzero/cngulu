@@ -117,6 +117,10 @@ exports.createSlider = function() {
 	slider.addWindow = function(params) {
 		var proxy = {};
 		proxy.window = null;
+		proxy.title = params.title;
+		proxy.actInd = params.actInd;
+		proxy.scrollView = params.scrollView;
+		proxy.tableView = params.tableView;
 		proxy.createFunction = params.createFunction;
 		windows.push(proxy);
 		// return the window number
@@ -130,7 +134,12 @@ exports.createSlider = function() {
 
 	slider.loadWindow = function(proxy) {
 		// Window has not been created yet
-		var win = proxy.createFunction();
+		var win = proxy.createFunction({
+			title : proxy.title,
+			actInd : proxy.actInd,
+			scrollView : proxy.scrollView,
+			tableView : proxy.tableView
+		});
 		if (Ti.Platform.osname != 'android') {
 			win.addEventListener('swipe', function(e) {
 				if (e.direction == 'right') {
@@ -159,7 +168,7 @@ exports.createSlider = function() {
 				top : 0,
 				font: {fontSize:"22dp", fontWeight:'bold'},
 				backgroundColor : 'black',
-				backgroundImage: "/header.jpg",
+				backgroundImage: "/grad.png",
 				textAlign : 'center',
 				color : 'white',
 				width : Ti.UI.FILL,
