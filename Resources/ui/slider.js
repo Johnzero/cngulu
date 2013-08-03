@@ -4,7 +4,7 @@ exports.createSlider = function() {
 
 	var windowWidth = Ti.Platform.displayCaps.platformWidth;
 	var windows = [];
-	var OPEN_LEFT = windowWidth * 0.25;
+	var OPEN_LEFT = windowWidth * 0.6;
 	var SLIDER_RIGHT = windowWidth - OPEN_LEFT;
 	var visibleWindow = null;
 	var STATUS = {
@@ -12,7 +12,7 @@ exports.createSlider = function() {
 		CLOSED : 1,
 		ANIMATING : 2
 	};
-	var ANIMATION_DURATION = 150;
+	var ANIMATION_DURATION = 200;
 	var status = STATUS.OPEN;
 	var tapCatcher = null;
 
@@ -121,6 +121,7 @@ exports.createSlider = function() {
 		proxy.actInd = params.actInd;
 		proxy.scrollView = params.scrollView;
 		proxy.tableView = params.tableView;
+		proxy.subjectId = params.subjectId;
 		proxy.createFunction = params.createFunction;
 		windows.push(proxy);
 		// return the window number
@@ -138,7 +139,8 @@ exports.createSlider = function() {
 			title : proxy.title,
 			actInd : proxy.actInd,
 			scrollView : proxy.scrollView,
-			tableView : proxy.tableView
+			tableView : proxy.tableView,
+			subjectId : proxy.subjectId
 		});
 		if (Ti.Platform.osname != 'android') {
 			win.addEventListener('swipe', function(e) {
@@ -150,8 +152,8 @@ exports.createSlider = function() {
 		proxy.window = require('/ui/navWindow').createNavigationWindow(win);
 		win.nav = proxy.window;
 		var button = Ti.UI.createButton({
-			backgroundImage : "/home1.png",
-			backgroundSelectedImage:'/home2.png'
+			backgroundImage : "/menu.png",
+			backgroundSelectedImage:'/menu2.png'
 			// backgroundFocusedImage:"/home.png"
 		});
 		button.addEventListener('click', function() {
@@ -175,11 +177,25 @@ exports.createSlider = function() {
 				text : win.title
 			});
 			win.add(titleBar);
-			button.top = '3dp';
+			button.top = '10dp';
 			button.left = '10dp';
-			button.width = '40dp';
-			button.height = '40dp';
+			button.width = '30dp';
+			button.height = '30dp';
 			win.add(button);
+
+			var searchButton = Ti.UI.createButton({
+				backgroundImage : "/search.png",
+				top: '10dp',
+				right: '5dp',
+				width: '30dp',
+				height :'30dp'
+				// backgroundFocusedImage:"/home.png"
+			});
+			searchButton.addEventListener('click', function() {
+				Ti.App.fireEvent("search",{});
+			});
+			win.add(searchButton);
+
 			win.addEventListener('android:back', function() {
 				Ti.API.debug('heard back!');
 			});

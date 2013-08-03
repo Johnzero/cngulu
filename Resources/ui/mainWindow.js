@@ -1,9 +1,6 @@
 
 exports.createMainWindow = function(e) {
 
-
-	e.num = 0;
-
 	var win = Ti.UI.createWindow({
 		title : e.title,
 		backgroundColor : "white",
@@ -41,7 +38,7 @@ exports.createMainWindow = function(e) {
 		  showHorizontalScrollIndicator: false,
 		  height: '100%',
 		  // top:"50dp",
-		  top:"20dp",
+		  top:"-5dp",
 		  left:0,
 		  width: '100%',
 		  layout: 'vertical'
@@ -52,20 +49,24 @@ exports.createMainWindow = function(e) {
 	    if (bottom) {
 		    // scrollView.removeEventListener('scroll',scrollListener);
 		    // require("/lib/extra").createConnection();
-		    goTop.show();
-	    }else {goTop.hide();}
+		    e.goTop.show();
+	    }else {e.goTop.hide();}
 	
 	}
+	timeout = 1;
 	scrollFetch = function (ee) {
 	    var bottom = (e.tableView.getRect().height - ee.y) <= (e.scrollView.getRect().height + tolerance);
 	    if (bottom) {
 		    e.scrollView.removeEventListener('scroll',scrollFetch);
-		    // require("/lib/extra").createConnection();
+		    if ( timeout > 0 ) {
+		    	win.fireEvent("fetch",{});
+		    	timeout--;
+		    };
 	    }
 	
 	}
-	e.scrollView.addEventListener('scroll', scrollListener);
 	e.scrollView.addEventListener('scroll', scrollFetch);
+	e.scrollView.addEventListener('scroll', scrollListener);
 	win.add(e.scrollView);
 
 	e.tableView = Ti.UI.createTableView({
@@ -79,73 +80,94 @@ exports.createMainWindow = function(e) {
 		layout: 'vertical',
 		search: searchbar
 	});
+	// e.tableView.addEventListener('click', function (event){
+	// 	Ti.API.info(event.rowData.reurl + event.rowData.reid + event.rowData.reimg);
+	// })
 
-	var slide_it_left = Titanium.UI.createAnimation();
-    slide_it_left.left = 0; // to put it back to the left side of the window
-    slide_it_left.duration = 300;
-	e.tableView.addEventListener('click', function (click_tableview){
-	  if (click_tableview.source && click_tableview.source.objName !== 'table'){
-	    var webview = Titanium.UI.createWebView({url:click_tableview.rowData.reurl});
+	e.tableView.addEventListener('click', function (event){
+		Ti.API.info(event.rowData.reurl);
+	    var webview = Titanium.UI.createWebView({url:event.rowData.reurl});
 	    var window = Titanium.UI.createWindow();
 	    window.add(webview);
-	    window.open({animated : slide_it_left,fullscreen : true,modal:true});
-	  }
+	    window.open({fullscreen : true,modal:true});
+	
 	});
+
+
 	e.scrollView.add(e.tableView);
 
-	advertLabel = Ti.UI.createLabel
+	e.advertLabel = Ti.UI.createLabel
 	({
-		  backgroundColor:'darkgray',
-		  text: '咕噜网@安徽木森网络科技有限公司',
-		  textAlign: 'center',
-		  bottom:0,
-		  width: Titanium.UI.FILL, 
-		  backgroundImage:"/grad.png",
-		  height:"30dp"
+		backgroundColor:'darkgray',
+		text: '咕噜网@安徽木森网络科技有限公司',
+		textAlign: 'center',
+		bottom:0,
+		width: Titanium.UI.FILL, 
+		backgroundImage:"/grad.png",
+		height:"30dp"
 	});
-	advertLabel.addEventListener('click', function(){
-		require("/lib/extra").createConnection({
-			actInd : e.actInd,
-			tableView : e.tableView,
-			n : e.num
-		});
-		e.num++;
+	e.advertLabel.addEventListener('click', function(){
+		win.fireEvent("fetch",{});
 	});
-	win.add(advertLabel);
+	win.add(e.advertLabel);
 
-	var goTop = Titanium.UI.createButton({
+	e.goTop = Titanium.UI.createButton({
 		height:"40dp",
 		width: "40dp",
 		right:0,
 		bottom:"30dp",
+		zIndex : 100,
 		// backgroundDisabledImage: '/images/BUTT_drk_off.png'
 		backgroundImage : "/top1.png",
 		backgroundSelectedImage:'/top2.png'
 	});
-	goTop.addEventListener('click', function()
+	e.goTop.addEventListener('click', function()
 	{
 
 		// listView.scrollToItem(sectionIndex,itemIndex);
 		e.scrollView.scrollTo(0, 0);
-		goTop.hide();
+		e.goTop.hide();
 	});
-	goTop.hide();
-	win.add(goTop);	
+	e.goTop.hide();
+	win.add(e.goTop);	
 	win.add(e.actInd);
-	win.addEventListener('open', function() {
 
-		// setTimeout(function(){
-		//     require("/lib/extra").createConnection({
-		// 		tableView : e.tableView
-		// 	});
-		// }, 9500);
+	var winOpenFunc = function() {
+		win.fireEvent("fetch",{});
+		win.removeEventListener('open',winOpenFunc);
+	}
+	win.addEventListener('open', winOpenFunc);
+
+	win.num = 0;
+	win.addEventListener('fetch', function(event) {
 		require("/lib/extra").createConnection({
 			actInd : e.actInd,
+			scrollView : e.scrollView,
 			tableView : e.tableView,
-			n : e.num
+			n : win.num,
+			advertLabel : e.advertLabel,
+			subjectId : e.subjectId
 		});
-		e.num++;
-	});
+		win.num++;
+	})
+	var swipe = function(event) {
+		if (event.direction == "right") {
+			Ti.App.fireEvent('slide_open', {});
+		}else {
+			Ti.App.fireEvent('slide_close', {});
+		}
+	}
+	win.addEventListener("swipe",swipe);
+	Ti.App.addEventListener('search', function(event) {
+
+		if (e.scrollView.top == "50dp") {
+			e.scrollView.top = "-5dp";
+		}
+		else {
+			e.scrollView.top = "50dp";
+		}
+		
+	})
 
 	return win;
 

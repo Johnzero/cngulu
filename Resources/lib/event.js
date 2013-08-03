@@ -6,13 +6,15 @@ Ti.App.addEventListener('graphic_download', function(e) {
 			height:'70dp',
 			top: '-3dp',
 			reurl:rowData[4],
-			backgroundImage:"/row.png"
+			reid : rowData[5],
+			reimg : rowData[6]
+			// backgroundImage:"/row.png"
 			// backgroundSelectedColor:'blue'
 		});
 		var img = Ti.UI.createImageView({
 			title: 'news_image',
 			className:'image',
-			height: '42dp',
+			height: '50dp',
 			width: '68dp',
 			left: '5dp',
 			top: '3dp',
@@ -28,7 +30,7 @@ Ti.App.addEventListener('graphic_download', function(e) {
 				fontSize: '16dp'
 			},
 			left: '83dp',
-			top:"2dp",
+			top:"-5dp",
 			right: '3dp',
 			touchEnabled: false,
 			color:"black"
@@ -38,7 +40,7 @@ Ti.App.addEventListener('graphic_download', function(e) {
 			height: Ti.UI.SIZE,
 		    width: '68dp',
 		    left: '5dp',
-		    bottom: '3dp',
+		    bottom: '1dp',
 		    color: '#444',
 		    font: {
 		        fontSize: '12dp'

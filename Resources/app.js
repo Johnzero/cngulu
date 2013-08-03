@@ -17,32 +17,10 @@ if (isIos) {
 	ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
 }
 
-advertLabel = Ti.UI.createLabel
-({
-	backgroundColor:'darkgray',
-	text: '咕噜网@安徽木森网络科技有限公司',
-	textAlign: 'center',
-	bottom:0,
-	width: Titanium.UI.FILL, 
-	backgroundImage:"/grad.png",
-	height:"30dp"
-});
-
-
-goTop = Titanium.UI.createButton({
-	height:"40dp",
-	width: "40dp",
-	right:0,
-	bottom:"30dp",
-	zIndex : 100,
-	// backgroundDisabledImage: '/images/BUTT_drk_off.png'
-	backgroundImage : "/top1.png",
-	backgroundSelectedImage:'/top2.png'
-});
 
 
 var baseWindow = Ti.UI.createWindow({
-	backgroundColor : 'black',
+	backgroundColor : '#BDC3C7',
 	navBarHidden : true,
 	exitOnClose : true,
 	fullscreen: false,
@@ -64,6 +42,9 @@ var win = [{
 	scrollView : "scrollView_main",
 	tableView : "tableView_main",
 	listView : "listView_main",
+	subjectId : '', 
+	advertLabel : "advertLabel_main",
+	goTop :"goTop_main",
 	createWindowFunction : mainWindow.createMainWindow
 }, {
 	title : '我说你听',
@@ -71,60 +52,100 @@ var win = [{
 	scrollView : "scrollView_speak",
 	tableView : "tableView_speak",
 	listView : "listView_speak",
-	createWindowFunction : contentWindow.createMainWindow
+	subjectId : 94, 
+	goTop :"goTop_speak",
+	advertLabel : "advertLabel_speak",
+	createWindowFunction :  mainWindow.createMainWindow
+},{
+	title : '撸科技',
+	actInd : "actInd_lu",
+	scrollView : "scrollView_lu",
+	tableView : "tableView_lu",
+	listView : "listView_lu",
+	subjectId : 95, 
+	goTop :"goTop_lu",
+	advertLabel : "advertLabel_lu",
+	createWindowFunction :  mainWindow.createMainWindow
 }, {
 	title : '人物访谈',
 	actInd : "actInd_man",
 	scrollView : "scrollView_man",
 	tableView : "tableView_man",
+	subjectId : 91, 
+	goTop :"goTop_man",
+	advertLabel : "advertLabel_man",
 	createWindowFunction :  mainWindow.createMainWindow
 }, {
 	title : '互联网',
 	actInd : "actInd_web",
 	scrollView : "scrollView_web",
 	tableView : "tableView_web",
+	subjectId : 87,
+	goTop :"goTop_web",
+	advertLabel : "advertLabel_web", 
 	createWindowFunction :  mainWindow.createMainWindow
 }, 	{
 	title : 'IT业界',
 	actInd : "actInd_it",
 	scrollView : "scrollView_it",
 	tableView : "tableView_it",
+	subjectId : 90, 
+	goTop :"goTop_it",
+	advertLabel : "advertLabel_it",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '手机数码',
 	actInd : "actInd_phone",
 	scrollView : "scrollView_phone",
 	tableView : "tableView_phone",
+	subjectId : 700, 
+	goTop :"goTop_phone",
+	advertLabel : "advertLabel_phone",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '掌上应用',
 	actInd : "actInd_app",
 	scrollView : "scrollView_app",
 	tableView : "tableView_app",
+	subjectId : 914,
+	goTop :"goTop_app",
+	advertLabel : "advertLabel_app",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '创业投资',
 	actInd : "actInd_invest",
 	scrollView : "scrollView_invest",
 	tableView : "tableView_invest",
+	subjectId : 84,
+	goTop :"goTop_invest",
+	advertLabel : "advertLabel_invest",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '游戏',
 	actInd : "actInd_game",
 	scrollView : "scrollView_game",
 	tableView : "tableView_game",
+	subjectId : 88,
+	goTop :"goTop_game",
+	advertLabel : "advertLabel_game",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '观点评论',
 	actInd : "actInd_point",
 	scrollView : "scrollView_point",
 	tableView : "tableView_point",
+	subjectId : 92,
+	goTop :"goTop_point",
+	advertLabel : "advertLabel_point",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '电子商务',
 	actInd : "actInd_taobao",
 	scrollView : "scrollView_taobao",
 	tableView : "tableView_taobao",
+	subjectId : 89,
+	goTop :"goTop_taobao",
+	advertLabel : "advertLabel_taobao",
 	createWindowFunction :  mainWindow.createMainWindow
 },];
 
@@ -136,11 +157,13 @@ _.each(win, function(obj, i) {
 		actInd : obj.actInd,
 		scrollView : obj.scrollView,
 		tableView : obj.tableView,
+		subjectId : obj.subjectId,
 		createFunction : obj.createWindowFunction
 	});
 	winData.push({
 		title : obj.title,
 		height : "40dp",
+		color : "black",
 		font:{fontSize:"13dp", fontWeight:'bold'}
 	});
 });
@@ -151,7 +174,6 @@ var table = Ti.UI.createTableView({
 table.setData(winData);
 
 table.addEventListener('click', function(e) {
-	Ti.API.debug('table heard click');
 	slider.selectAndClose(e.index);
 });
 
@@ -195,6 +217,23 @@ slider.addEventListener('close', function() {
 	baseWindow.addEventListener('android:back', listenForBackButton);
 });
 
+
+var slideopen = function () {
+	slider.open();
+};
+var slideclose = function () {
+	slider.close();
+};
+Ti.App.addEventListener("slide_open",slideopen);
+Ti.App.addEventListener("slide_close",slideclose);
+
+var swipe = function(event) {
+	if (event.direction == "right") {
+	}else {
+		Ti.App.fireEvent('slide_close', {});
+	}
+}
+baseWindow.addEventListener("swipe",swipe);
 baseWindow.open({
 	animated : true,
 	fullscreen : true,
