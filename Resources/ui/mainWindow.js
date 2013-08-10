@@ -44,17 +44,10 @@ exports.createMainWindow = function(e) {
 		  layout: 'vertical'
 	});
 	var tolerance = 150;
-	var scrollListener = function (ee) {
-	    var bottom = (e.tableView.getRect().height - ee.y) <= (e.scrollView.getRect().height + tolerance);
-	    if (bottom) {
-		    // scrollView.removeEventListener('scroll',scrollListener);
-		    // require("/lib/extra").createConnection();
-		    e.goTop.show();
-	    }else {e.goTop.hide();}
-	
-	}
+
 	timeout = 1;
 	scrollFetch = function (ee) {
+		e.goTop.show();
 	    var bottom = (e.tableView.getRect().height - ee.y) <= (e.scrollView.getRect().height + tolerance);
 	    if (bottom) {
 		    e.scrollView.removeEventListener('scroll',scrollFetch);
@@ -66,7 +59,6 @@ exports.createMainWindow = function(e) {
 	
 	}
 	e.scrollView.addEventListener('scroll', scrollFetch);
-	e.scrollView.addEventListener('scroll', scrollListener);
 	win.add(e.scrollView);
 
 	e.tableView = Ti.UI.createTableView({
@@ -93,7 +85,6 @@ exports.createMainWindow = function(e) {
 	
 	});
 
-
 	e.scrollView.add(e.tableView);
 
 	e.advertLabel = Ti.UI.createLabel
@@ -114,8 +105,8 @@ exports.createMainWindow = function(e) {
 	e.goTop = Titanium.UI.createButton({
 		height:"40dp",
 		width: "40dp",
-		right:0,
-		bottom:"30dp",
+		right:"5dp",
+		bottom:"50dp",
 		zIndex : 100,
 		// backgroundDisabledImage: '/images/BUTT_drk_off.png'
 		backgroundImage : "/top1.png",
@@ -123,7 +114,6 @@ exports.createMainWindow = function(e) {
 	});
 	e.goTop.addEventListener('click', function()
 	{
-
 		// listView.scrollToItem(sectionIndex,itemIndex);
 		e.scrollView.scrollTo(0, 0);
 		e.goTop.hide();

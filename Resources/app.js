@@ -20,7 +20,7 @@ if (isIos) {
 
 
 var baseWindow = Ti.UI.createWindow({
-	backgroundColor : '#BDC3C7',
+	backgroundImage : "/back.png",
 	navBarHidden : true,
 	exitOnClose : true,
 	fullscreen: false,
@@ -45,6 +45,7 @@ var win = [{
 	subjectId : '', 
 	advertLabel : "advertLabel_main",
 	goTop :"goTop_main",
+	subImg : "/book.png",
 	createWindowFunction : mainWindow.createMainWindow
 }, {
 	title : '我说你听',
@@ -55,6 +56,7 @@ var win = [{
 	subjectId : 94, 
 	goTop :"goTop_speak",
 	advertLabel : "advertLabel_speak",
+	subImg : "/sc.png",
 	createWindowFunction :  mainWindow.createMainWindow
 },{
 	title : '撸科技',
@@ -65,6 +67,7 @@ var win = [{
 	subjectId : 95, 
 	goTop :"goTop_lu",
 	advertLabel : "advertLabel_lu",
+	subImg : "/board.png",
 	createWindowFunction :  mainWindow.createMainWindow
 }, {
 	title : '人物访谈',
@@ -74,6 +77,7 @@ var win = [{
 	subjectId : 91, 
 	goTop :"goTop_man",
 	advertLabel : "advertLabel_man",
+	subImg : "/hat.png",
 	createWindowFunction :  mainWindow.createMainWindow
 }, {
 	title : '互联网',
@@ -82,7 +86,8 @@ var win = [{
 	tableView : "tableView_web",
 	subjectId : 87,
 	goTop :"goTop_web",
-	advertLabel : "advertLabel_web", 
+	advertLabel : "advertLabel_web",
+	subImg : "/notebook.png", 
 	createWindowFunction :  mainWindow.createMainWindow
 }, 	{
 	title : 'IT业界',
@@ -92,6 +97,7 @@ var win = [{
 	subjectId : 90, 
 	goTop :"goTop_it",
 	advertLabel : "advertLabel_it",
+	subImg : "/apple.png",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
 	title : '手机数码',
@@ -100,6 +106,7 @@ var win = [{
 	tableView : "tableView_phone",
 	subjectId : 700, 
 	goTop :"goTop_phone",
+	subImg : "/comput.png",
 	advertLabel : "advertLabel_phone",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
@@ -109,6 +116,7 @@ var win = [{
 	tableView : "tableView_app",
 	subjectId : 914,
 	goTop :"goTop_app",
+	subImg : "/desk.png",
 	advertLabel : "advertLabel_app",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
@@ -118,6 +126,7 @@ var win = [{
 	tableView : "tableView_invest",
 	subjectId : 84,
 	goTop :"goTop_invest",
+	subImg : "/books.png",
 	advertLabel : "advertLabel_invest",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
@@ -127,6 +136,7 @@ var win = [{
 	tableView : "tableView_game",
 	subjectId : 88,
 	goTop :"goTop_game",
+	subImg : "/bus.png",
 	advertLabel : "advertLabel_game",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
@@ -136,6 +146,7 @@ var win = [{
 	tableView : "tableView_point",
 	subjectId : 92,
 	goTop :"goTop_point",
+	subImg : "/12.png",
 	advertLabel : "advertLabel_point",
 	createWindowFunction :  mainWindow.createMainWindow
 },	{
@@ -145,6 +156,7 @@ var win = [{
 	tableView : "tableView_taobao",
 	subjectId : 89,
 	goTop :"goTop_taobao",
+	subImg : "/ring.png",
 	advertLabel : "advertLabel_taobao",
 	createWindowFunction :  mainWindow.createMainWindow
 },];
@@ -164,6 +176,8 @@ _.each(win, function(obj, i) {
 		title : obj.title,
 		height : "40dp",
 		color : "black",
+		left : "60dp",
+		leftImage  : obj.subImg,
 		font:{fontSize:"13dp", fontWeight:'bold'}
 	});
 });
@@ -234,9 +248,29 @@ var swipe = function(event) {
 	}
 }
 baseWindow.addEventListener("swipe",swipe);
+
+var toast = Ti.UI.createNotification({
+    message:"网络连接不可用",
+    duration: Ti.UI.NOTIFICATION_DURATION_LONG
+});
+var networkIsOnline, networkType;
+ 
+Ti.Network.addEventListener('change', function(e) {
+  	networkIsOnline = e.online;
+  	networkType = e.networkType;
+  	if (!networkIsOnline) {
+		toast.show();
+  	}else {
+  		toast.message = "加载中...",
+  		toast.show();
+  	};
+});
+
 baseWindow.open({
 	animated : true,
 	fullscreen : true,
 	activityEnterAnimation : Ti.Android.R.anim.fade_in,
     activityExitAnimation : Ti.Android.R.anim.fade_out
 });
+
+
